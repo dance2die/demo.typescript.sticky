@@ -22,32 +22,34 @@ export interface StickyProps {
   // https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#useful-react-prop-type-examples
   children: ReactNode;
   className: string;
-  as: ComponentPropsWithRef<any>;
+  as?: ComponentPropsWithRef<any>;
 }
 export interface StickyRootProps {
   children: ReactNode;
-  as: ComponentPropsWithRef<any>;
+  as?: ComponentPropsWithRef<any>;
 }
 export type ChangeType = {
   type: "stuck" | "unstuck";
   target: HTMLElement;
 };
 export interface StickySectionProps {
-  as: ComponentPropsWithRef<any>;
-  onChange: (e: ChangeType) => void;
-  onStuck: (target: HTMLElement) => void;
-  onUnstuck: (target: HTMLElement) => void;
+  as?: ComponentPropsWithRef<any>;
+  onChange?: (e: ChangeType) => void;
+  onStuck?: (target: HTMLElement) => void;
+  onUnstuck?: (target: HTMLElement) => void;
   // https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#useful-react-prop-type-examples
   children: ReactNode;
 }
 
 // const Sticky = React.FC<StickyProps> = ({ children, as = "div", ...rest }) => {
+// StickyProps & React.HTMLAttributes<any>
+// https://stackoverflow.com/questions/40032592/typescript-workaround-for-rest-props-in-react
 function Sticky({
   children,
   as = "div",
   className = "",
   ...rest
-}: StickyProps) {
+}: StickyProps & React.HTMLAttributes<any>) {
   const { topSentinelRef, bottomSentinelRef } = useContext(
     StickySectionContext
   );
@@ -73,13 +75,14 @@ function Sticky({
 }
 
 function StickySection({
-  as: Component = "section",
+  as = "section",
   onChange = noop,
   onStuck = noop,
   onUnstuck = noop,
   children,
   ...rest
-}: StickySectionProps) {
+}: StickySectionProps & React.HTMLAttributes<any>) {
+  const Component = as;
   const sectionRef = useRef(null);
   const topSentinelRef = useRef(null);
   const bottomSentinelRef = useRef(null);
