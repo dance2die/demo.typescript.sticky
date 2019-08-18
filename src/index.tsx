@@ -44,7 +44,7 @@ function App() {
         onUnstuck={handleUnstuck}
         onChange={handleChange}
       >
-        <Sticky id={key} as="h1">
+        <Sticky id={key} as="h1" className="sticky">
           Sticky Header {key}
         </Sticky>
         <h3>{key} -- Some content under the sticky header</h3>

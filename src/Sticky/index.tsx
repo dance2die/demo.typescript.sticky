@@ -21,11 +21,17 @@ const noop = () => {};
 export interface StickyProps {
   // https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#useful-react-prop-type-examples
   children: ReactNode;
+  className: string;
   as: ComponentPropsWithRef<any>;
 }
 
 // const Sticky = React.FC<StickyProps> = ({ children, as = "div", ...rest }) => {
-function Sticky({ children, as = "div", ...rest }: StickyProps) {
+function Sticky({
+  children,
+  as = "div",
+  className = "",
+  ...rest
+}: StickyProps) {
   const { topSentinelRef, bottomSentinelRef } = useContext(
     StickySectionContext
   );
@@ -40,7 +46,11 @@ function Sticky({ children, as = "div", ...rest }: StickyProps) {
   const Component = as;
 
   return (
-    <Component ref={addStickyRef} {...rest} className={styles.sticky}>
+    <Component
+      ref={addStickyRef}
+      className={styles.sticky + className === "" ? "" : ` ${className}`}
+      {...rest}
+    >
       {children}
     </Component>
   );

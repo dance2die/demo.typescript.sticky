@@ -2,3 +2,11 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.sticky {
+  position: sticky;
+  top: 50px;
+  padding: 1.5rem;
+  background-color: rebeccapurple;
+  color: white;
+}
