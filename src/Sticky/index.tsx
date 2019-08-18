@@ -91,11 +91,12 @@ function StickySection({
       ${height} +
       ${paddingBottom})`;
 
-    // console.log(`targetHeight`, targetHeight)
     setTargetHeight(targetHeight);
     setSentinelMarginTop(marginTop);
   }, [stickyRefs]);
 
+  // handle TOP sentinels
+  // https://developers.google.com/web/updates/2017/09/sticky-headers
   useEffect(() => {
     if (!containerRef) return;
     if (!containerRef.current) return;
@@ -108,9 +109,13 @@ function StickySection({
           const targetInfo = entry.boundingClientRect;
           const rootBoundsInfo = entry.rootBounds;
 
-          // console.log(`TOP entry`, entry, `root`, root)
-
           let type: "stuck" | "unstuck";
+          // Started sticking.
+          if (targetInfo.bottom < rootBoundsInfo.top) {
+            type = "stuck";
+            onStuck(target);
+          }
+
           // Stopped sticking.
           if (
             targetInfo.bottom >= rootBoundsInfo.top &&
@@ -119,11 +124,6 @@ function StickySection({
             type = "unstuck";
             onUnstuck(target);
           }
-          // Started sticking.
-          else if (targetInfo.top < rootBoundsInfo.top) {
-            type = "stuck";
-            onStuck(target);
-          }
 
           onChange({ type, target });
         });
@@ -131,11 +131,12 @@ function StickySection({
       { threshold: [0], root }
     );
 
-    const topSentinelNode = topSentinelRef.current;
-    topSentinelNode && observer.observe(topSentinelNode);
-    return () => observer.unobserve(topSentinelNode);
+    const sentinel = topSentinelRef.current;
+    sentinel && observer.observe(sentinel);
+    return () => observer.unobserve(sentinel);
   }, [topSentinelRef, onChange, onStuck, onUnstuck, stickyRefs, containerRef]);
 
+  // handle BOTTOM sentinels
   useEffect(() => {
     if (!containerRef) return;
     if (!containerRef.current) return;
@@ -149,32 +150,31 @@ function StickySection({
           const rootBoundsInfo = entry.rootBounds;
           const ratio = entry.intersectionRatio;
 
-          console.log(`bottom entry`, entry, `root`, root);
-
-          let type = undefined;
+          let type: "stuck" | "unstuck";
           // Started sticking.
           if (targetInfo.bottom > rootBoundsInfo.top && ratio === 1) {
-            type = "stuck from bottom";
+            type = "stuck";
             onStuck(target);
           }
+
           // Stopped sticking.
-          else if (
+          if (
             targetInfo.top < rootBoundsInfo.top &&
             targetInfo.bottom < rootBoundsInfo.bottom
           ) {
-            type = "unstuck from bottom";
+            type = "unstuck";
             onUnstuck(target);
           }
 
-          type && onChange({ type, target });
+          type !== null && onChange({ type, target });
         });
       },
       { threshold: [1], root }
     );
 
-    const bottomSentinelNode = bottomSentinelRef.current;
-    bottomSentinelNode && observer.observe(bottomSentinelNode);
-    return () => observer.unobserve(bottomSentinelNode);
+    const sentinel = bottomSentinelRef.current;
+    sentinel && observer.observe(sentinel);
+    return () => observer.unobserve(sentinel);
   }, [
     bottomSentinelRef,
     onChange,

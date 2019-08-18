@@ -6,7 +6,7 @@ import "./styles.css";
 import { StickyContainer, StickySection, Sticky } from "./Sticky";
 
 const containerStyle = {
-  height: "75vh",
+  height: "85vh",
   width: "100%",
   overflowY: "auto"
 };
@@ -24,7 +24,7 @@ function App() {
     // target.style.boxShadow = ''
   };
   const handleChange = ({ target, type }) => {
-    // console.log(`Changed!!`, type, target)
+    console.log(`Changed!!`, type, target);
     if (type === "stuck") {
       target.style.backgroundColor = "#4caf50";
       target.style.boxShadow =
@@ -58,20 +58,12 @@ function App() {
           Proin euismod pharetra ligula ac tempus. Nam a nibh in leo facilisis
           semper sed nec nulla. Nam sed tellus sed est sodales convallis.
           Praesent felis sapien, auctor nec venenatis eu, vehicula vitae nibh.
-          Vestibulum vel imperdiet massa. Nunc ac neque lacinia, sodales sapien
-          at, finibus eros. lacinia. Pellentesque at lectus varius, rhoncus mi
-          et, commodo sapien. Proin euismod pharetra ligula ac tempus. Nam a
-          nibh in leo facilisis semper sed nec nulla. Nam sed tellus sed est
-          sodales convallis. Praesent felis sapien, auctor nec venenatis eu,
-          vehicula vitae nibh. Vestibulum vel imperdiet massa. Nunc ac neque
-          lacinia, sodales sapien at, finibus eros.auctor nec venenatis eu,
-          vehicula vitae nibh. Vestibulum vel imperdiet massa. Nunc ac neque
-          lacinia, sodales sapien at, finibus eros. lacinia. Pellentesque at
-          lectus varius, rhoncus mi et, commodo sapien. Proin euismod pharetra
-          ligula ac tempus. Nam a nibh in leo facilisis semper sed nec nulla.
-          Nam sed tellus sed est sodales convallis. Praesent felis sapien,
-          auctor nec venenatis eu, vehicula vitae nibh. Vestibulum vel imperdiet
-          massa. Nunc ac neque lacinia, sodales sapien at, finibus eros.
+          at lectus varius, rhoncus mi et, commodo sapien. Proin euismod
+          pharetra ligula ac tempus. Nam a nibh in leo facilisis semper sed nec
+          nulla. Nam sed tellus sed est sodales convallis. Praesent felis
+          sapien, auctor nec venenatis eu, vehicula vitae nibh. Vestibulum vel
+          imperdiet massa. Nunc ac neque lacinia, sodales sapien at, finibus
+          eros.
         </article>
       </StickySection>
     )
