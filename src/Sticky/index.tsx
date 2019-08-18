@@ -24,6 +24,22 @@ export interface StickyProps {
   className: string;
   as: ComponentPropsWithRef<any>;
 }
+export interface StickyRootProps {
+  children: ReactNode;
+  as: ComponentPropsWithRef<any>;
+}
+export type ChangeType = {
+  type: "stuck" | "unstuck";
+  target: HTMLElement;
+};
+export interface StickySectionProps {
+  as: ComponentPropsWithRef<any>;
+  onChange: (e: ChangeType) => void;
+  onStuck: (target: HTMLElement) => void;
+  onUnstuck: (target: HTMLElement) => void;
+  // https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#useful-react-prop-type-examples
+  children: ReactNode;
+}
 
 // const Sticky = React.FC<StickyProps> = ({ children, as = "div", ...rest }) => {
 function Sticky({
@@ -54,19 +70,6 @@ function Sticky({
       {children}
     </Component>
   );
-}
-
-export type ChangeType = {
-  type: "stuck" | "unstuck";
-  target: HTMLElement;
-};
-export interface StickySectionProps {
-  as: ComponentPropsWithRef<any>;
-  onChange: (e: ChangeType) => void;
-  onStuck: (target: HTMLElement) => void;
-  onUnstuck: (target: HTMLElement) => void;
-  // https://github.com/typescript-cheatsheets/react-typescript-cheatsheet/blob/master/README.md#useful-react-prop-type-examples
-  children: ReactNode;
 }
 
 function StickySection({
@@ -135,7 +138,7 @@ function StickySection({
             onUnstuck(target);
           }
 
-          onChange({ type, target });
+          type && onChange({ type, target });
         });
       },
       { threshold: [0], root }
@@ -176,7 +179,7 @@ function StickySection({
             onUnstuck(target);
           }
 
-          type !== null && onChange({ type, target });
+          type && onChange({ type, target });
         });
       },
       { threshold: [1], root }
@@ -218,11 +221,6 @@ function StickySection({
       </Component>
     </StickySectionContext.Provider>
   );
-}
-
-export interface StickyRootProps {
-  children: ReactNode;
-  as: ComponentPropsWithRef<any>;
 }
 
 function StickyRoot({
